@@ -6,16 +6,16 @@
 
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #6b9080 0%, #a4c3b2 100%);
   padding: 20px;
 }
 
 .container {
   max-width: 900px;
   margin: 0 auto;
-  background: white;
+  background: #f6fff8;
   border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(107, 144, 128, 0.3);
   padding: 40px;
 }
 
@@ -48,9 +48,9 @@
 }
 
 .alert-success {
-  background: #c6f6d5;
-  color: #2f855a;
-  border: 1px solid #9ae6b4;
+  background: #cce3de;
+  color: #6b9080;
+  border: 1px solid #a4c3b2;
 }
 
 .success-content {
@@ -71,15 +71,16 @@
 .url-input {
   flex: 1;
   padding: 10px;
-  border: 1px solid #cbd5e0;
+  border: 1px solid #a4c3b2;
   border-radius: 6px;
   font-family: monospace;
   font-size: 0.95rem;
+  background: #eaf4f4;
 }
 
 .btn-copy {
   padding: 10px 20px;
-  background: #4299e1;
+  background: #6b9080;
   color: white;
   border: none;
   border-radius: 6px;
@@ -89,13 +90,13 @@
 }
 
 .btn-copy:hover {
-  background: #3182ce;
+  background: #5a7a6b;
 }
 
 .btn-view {
   display: inline-block;
   padding: 10px 20px;
-  background: #48bb78;
+  background: #a4c3b2;
   color: white;
   text-decoration: none;
   border-radius: 6px;
@@ -104,7 +105,7 @@
 }
 
 .btn-view:hover {
-  background: #38a169;
+  background: #8fae9d;
 }
 
 .paste-form {
@@ -127,30 +128,32 @@
 .textarea {
   width: 100%;
   padding: 12px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #cce3de;
   border-radius: 8px;
   font-family: 'Courier New', monospace;
   font-size: 0.95rem;
   resize: vertical;
   transition: border-color 0.2s;
+  background: #eaf4f4;
 }
 
 .textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #6b9080;
 }
 
 .input {
   padding: 10px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #cce3de;
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.2s;
+  background: #eaf4f4;
 }
 
 .input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #6b9080;
 }
 
 .help-text {
@@ -164,9 +167,7 @@
   gap: 20px;
 }
 
-.btn-submit {
-  padding: 14px 32px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.btn-submit {b9080 0%, #a4c3b2 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -178,6 +179,8 @@
 
 .btn-submit:hover:not(:disabled) {
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(107, 144, 128
+  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
@@ -187,10 +190,10 @@
 }
 
 .footer {
-  margin-top: 40px;
-  text-align: center;
-  color: #718096;
+  margin-t6b9080;
   font-size: 0.9rem;
+  padding-top: 20px;
+  border-top: 1px solid #cce3de
   padding-top: 20px;
   border-top: 1px solid #e2e8f0;
 }
