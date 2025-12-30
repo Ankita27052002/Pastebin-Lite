@@ -2,6 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import { Redis } from '@upstash/redis';
 import { nanoid } from 'nanoid';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -9,6 +13,12 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Set JSON content type for all API responses
+app.use('/api', (req, res, next) => {
+  res.setHeader('Content-Type', 'application/json');
+  next();
+});
 
 // Initialize Redis client
 let redis;
