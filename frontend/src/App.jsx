@@ -156,10 +156,6 @@ function App() {
             {loading ? 'Creating...' : 'Create Paste'}
           </button>
         </form>
-
-        <footer className="footer">
-          <p>Created with React + Node.js + Upstash Redis</p>
-        </footer>
       </div>
     </div>
   );
