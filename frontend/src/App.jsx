@@ -38,8 +38,7 @@ function App() {
         payload.max_views = views;
       }
 
-      const apiUrl = import.meta.env.VITE_API_URL || '/api';
-      const response = await fetch(`${apiUrl}/pastes`, {
+      const response = await fetch('/api/pastes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
