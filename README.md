@@ -83,7 +83,7 @@ backend/.env` file:
 ```env
 UPSTASH_REDIS_REST_URL=your_redis_url_here
 UPSTASH_REDIS_REST_TOKEN=your_redis_token_here
-BASE_URL=http://localhost:5173
+BASE_URL=http://127.0.0.1:5173
 TEST_MODE=0
 ```
 

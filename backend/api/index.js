@@ -113,11 +113,25 @@ app.post('/api/pastes', async (req, res) => {
       await redis.expire(`paste:${id}`, ttl_seconds + 60); // Add buffer
     }
 
-    // Construct URL
-    const baseUrl = process.env.BASE_URL;
-    if (!baseUrl) {
-      return res.status(500).json({ error: 'BASE_URL environment variable is not configured' });
+    // Construct URL using request origin (matches what user is accessing)
+    let baseUrl;
+    
+    // First try to get origin from request headers (for local dev)
+    if (req.headers.origin) {
+      baseUrl = req.headers.origin;
+    } else if (req.headers.referer) {
+      // Extract base URL from referer
+      const refererUrl = new URL(req.headers.referer);
+      baseUrl = `${refererUrl.protocol}//${refererUrl.host}`;
+    } else {
+      // Fall back to environment variable (for production/API-only requests)
+      baseUrl = process.env.BASE_URL;
     }
+    
+    if (!baseUrl) {
+      return res.status(500).json({ error: 'Unable to determine BASE_URL. Set BASE_URL environment variable.' });
+    }
+    
     const url = `${baseUrl}/p/${id}`;
 
     return res.status(201).json({ id, url });
