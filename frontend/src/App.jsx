@@ -47,11 +47,22 @@ function App() {
         body: JSON.stringify(payload),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to create paste');
+        const contentType = response.headers.get('content-type');
+        let errorMessage = 'Failed to create paste';
+        
+        if (contentType && contentType.includes('application/json')) {
+          const data = await response.json();
+          errorMessage = data.error || errorMessage;
+        } else {
+          const text = await response.text();
+          errorMessage = `Server error: ${response.status} ${response.statusText}`;
+        }
+        
+        throw new Error(errorMessage);
       }
+
+      const data = await response.json();
 
       setSuccess(data);
       setContent('');
