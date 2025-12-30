@@ -123,7 +123,8 @@ app.post('/api/pastes', async (req, res) => {
     return res.status(201).json({ id, url });
   } catch (error) {
     console.error('Error creating paste:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error('Error stack:', error.stack);
+    return res.status(500).json({ error: 'Internal server error', details: error.message });
   }
 });
 
