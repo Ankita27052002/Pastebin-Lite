@@ -22,13 +22,21 @@ app.use('/api', (req, res, next) => {
 
 // Initialize Redis client
 let redis;
-try {
-  redis = new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL || '',
-    token: process.env.UPSTASH_REDIS_REST_TOKEN || '',
-  });
-} catch (error) {
-  console.error('Redis initialization error:', error);
+let redisConfigured = false;
+
+if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+  try {
+    redis = new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    });
+    redisConfigured = true;
+    console.log('✅ Redis configured successfully');
+  } catch (error) {
+    console.error('❌ Redis initialization error:', error);
+  }
+} else {
+  console.warn('⚠️  Redis not configured. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN environment variables.');
 }
 
 // Helper function to get current time (supports TEST_MODE)
@@ -55,6 +63,11 @@ app.get('/api/healthz', async (req, res) => {
 // Create a paste
 app.post('/api/pastes', async (req, res) => {
   try {
+    // Check if Redis is configured
+    if (!redisConfigured || !redis) {
+      return res.status(503).json({ error: 'Service temporarily unavailable. Redis not configured.' });
+    }
+
     const { content, ttl_seconds, max_views } = req.body;
 
     // Validate content
@@ -104,16 +117,21 @@ app.post('/api/pastes', async (req, res) => {
     const baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
     const url = `${baseUrl}/p/${id}`;
 
-    res.status(201).json({ id, url });
+    return res.status(201).json({ id, url });
   } catch (error) {
     console.error('Error creating paste:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 });
 
 // Fetch a paste (API)
 app.get('/api/pastes/:id', async (req, res) => {
   try {
+    // Check if Redis is configured
+    if (!redisConfigured || !redis) {
+      return res.status(503).json({ error: 'Service temporarily unavailable' });
+    }
+
     const { id } = req.params;
     const currentTime = getCurrentTime(req);
 
