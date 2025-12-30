@@ -3,7 +3,12 @@
 // Simple test script to verify API endpoints
 import fetch from 'node-fetch';
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:3001';
+const BASE_URL = process.env.BASE_URL;
+
+if (!BASE_URL) {
+  console.error('❌ BASE_URL environment variable is required');
+  process.exit(1);
+}
 
 async function runTests() {
   console.log('🧪 Starting API tests...\n');

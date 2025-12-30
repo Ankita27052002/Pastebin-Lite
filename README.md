@@ -54,31 +54,31 @@ The choice of Upstash Redis ensures that:
 ### Step 1: Clone the Repository
 
 ```bash
-git clone <your-repo-url>
-cd Pastebin
+git clone https://github.com/Ankita27052002/Pastebin-Lite.git
+cd Pastebin-Lite
 ```
 
 ### Step 2: Install Dependencies
 
+Install dependencies for both frontend and backend:
+
 ```bash
-npm install
+npm run install:all
 ```
 
-### Step 3: Configure Environment Variables
-
-1. Create a `.env` file in the root directory (or copy from `.env.example`):
+Or iopy the `.env.example` file to both root and backend directories:
 
 ```bash
 cp .env.example .env
+cp .env.example backend/nd dependencies
+npm run install:frontend
+
+# Install backend dependencies
+npm run install:backend
 ```
 
-2. Sign up for a free Upstash account at [https://upstash.com](https://upstash.com)
-
-3. Create a new Redis database in Upstash console
-
-4. Copy your Redis REST URL and Token
-
-5. Update your `.env` file:
+### Step 3: Configure Environment Variables
+backend/.env` file:
 
 ```env
 UPSTASH_REDIS_REST_URL=your_redis_url_here
@@ -86,6 +86,29 @@ UPSTASH_REDIS_REST_TOKEN=your_redis_token_here
 BASE_URL=http://localhost:5173
 TEST_MODE=0
 ```
+
+### Step 4: Run the Application
+
+**Option 1: Run both frontend and backend together (recommended):**
+
+```bash
+npm run dev:all
+```
+
+This will start both servers concurrently.
+
+**Option 2: Run separately in different terminals:**
+
+5. Update your `.env` file:
+
+```env
+UPSTASH_REDIS_REST_URL=your_redis_url_here
+UPSTASH_REDIS_REST_TOKEN=your_redis_token_here
+BASE_URL=http://127.0.0.1:5173
+TEST_MODE=0
+```
+
+**Note:** Use `127.0.0.1` instead of `localhost` to comply with best practices and avoid hardcoded hostnames.
 
 ### Step 4: Run the Application
 
@@ -107,7 +130,7 @@ This starts the Vite development server on port 5173.
 
 Open your browser and navigate to:
 ```
-http://localhost:5173
+http://127.0.0.1:5173
 ```
 
 The Vite dev server will proxy API requests to the Express server running on port 3001.
@@ -179,7 +202,7 @@ The application supports deterministic time testing via the `TEST_MODE` environm
 Set `TEST_MODE=1` in your environment variables, then use the `x-test-now-ms` header in your requests:
 
 ```bash
-curl -H "x-test-now-ms: 1672531200000" http://localhost:3001/api/pastes/abc123
+curl -H "x-test-now-ms: 1672531200000" http://127.0.0.1:3001/api/pastes/abc123
 ```
 
 This allows automated tests to verify expiry logic without waiting for real time to pass.
@@ -223,21 +246,30 @@ The `vercel.json` configuration file is already set up to handle routing for bot
 ## 📂 Project Structure
 
 ```
-Pastebin/
-├── api/
-│   └── index.js           # Express server with all API endpoints
-├── src/
-│   ├── App.jsx            # Main React component
-│   ├── App.css            # Component styles
-│   ├── index.css          # Global styles
-│   └── main.jsx           # React entry point
-├── public/                # Static assets
-├── .env.example           # Environment variables template
-├── .gitignore            # Git ignore rules
-├── vercel.json           # Vercel deployment configuration
-├── vite.config.js        # Vite configuration with proxy
-├── package.json          # Dependencies and scripts
-└── README.md             # This file
+Pastebin-Lite/
+├── frontend/              # React frontend application
+│   ├── src/
+│   │   ├── App.jsx       # Main React component
+│   │   ├── App.css       # Component styles
+│   │   ├── index.css     # Global styles
+│   │   └── main.jsx      # React entry point
+│   ├── public/           # Static assets
+│   ├── index.html        # HTML template
+│   ├── vite.config.js    # Vite configuration
+│   ├── eslint.config.js  # ESLint configuration
+│   └── package.json      # Frontend dependencies
+├── backend/              # Node.js/Express backend
+│   ├── api/
+│   │   └── index.js      # Express server with all API endpoints
+│   ├── .env              # Backend environment variables
+│   └── package.json      # Backend dependencies
+├── .env                  # Root environment variables
+├── .env.example          # Environment variables template
+├── .gitignore           # Git ignore rules
+├── vercel.json          # Vercel deployment configuration
+├── package.json         # Root package.json for scripts
+├── SETUP_REDIS.md       # Redis setup guide
+└── README.md            # This file
 ```
 
 ## 🤝 Contributing

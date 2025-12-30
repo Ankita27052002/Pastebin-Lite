@@ -114,7 +114,10 @@ app.post('/api/pastes', async (req, res) => {
     }
 
     // Construct URL
-    const baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
+    const baseUrl = process.env.BASE_URL;
+    if (!baseUrl) {
+      return res.status(500).json({ error: 'BASE_URL environment variable is not configured' });
+    }
     const url = `${baseUrl}/p/${id}`;
 
     return res.status(201).json({ id, url });
