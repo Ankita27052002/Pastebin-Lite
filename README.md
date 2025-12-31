@@ -15,7 +15,7 @@ A minimal Pastebin-like application where users can create text pastes with opti
 ## 🛠️ Tech Stack
 
 **Frontend:**
-- React 19
+- React 18
 - Vite (build tool)
 - JavaScript (ES6+)
 
@@ -66,11 +66,10 @@ Install dependencies for both frontend and backend:
 npm run install:all
 ```
 
-Or iopy the `.env.example` file to both root and backend directories:
+Or install separately:
 
 ```bash
-cp .env.example .env
-cp .env.example backend/nd dependencies
+# Install frontend dependencies
 npm run install:frontend
 
 # Install backend dependencies
@@ -78,13 +77,32 @@ npm run install:backend
 ```
 
 ### Step 3: Configure Environment Variables
-backend/.env` file:
+
+Copy the example environment files and configure them:
+
+**Backend Configuration:**
+```bash
+cp backend/.env.example backend/.env
+```
+
+Then edit `backend/.env` with your Upstash Redis credentials:
 
 ```env
 UPSTASH_REDIS_REST_URL=your_redis_url_here
 UPSTASH_REDIS_REST_TOKEN=your_redis_token_here
-BASE_URL=http://127.0.0.1:5173
+BASE_URL=
 TEST_MODE=0
+```
+
+**Frontend Configuration:**
+```bash
+cp frontend/.env.example frontend/.env
+```
+
+The default configuration should work for local development:
+
+```env
+VITE_API_URL=http://localhost:3001
 ```
 
 ### Step 4: Run the Application
@@ -98,21 +116,6 @@ npm run dev:all
 This will start both servers concurrently.
 
 **Option 2: Run separately in different terminals:**
-
-5. Update your `.env` file:
-
-```env
-UPSTASH_REDIS_REST_URL=your_redis_url_here
-UPSTASH_REDIS_REST_TOKEN=your_redis_token_here
-BASE_URL=http://127.0.0.1:5173
-TEST_MODE=0
-```
-
-**Note:** Use `127.0.0.1` instead of `localhost` to comply with best practices and avoid hardcoded hostnames.
-
-### Step 4: Run the Application
-
-You need to run both the backend API server and the frontend development server:
 
 **Terminal 1 - Backend Server:**
 ```bash
@@ -130,7 +133,7 @@ This starts the Vite development server on port 5173.
 
 Open your browser and navigate to:
 ```
-http://127.0.0.1:5173
+http://localhost:5173
 ```
 
 The Vite dev server will proxy API requests to the Express server running on port 3001.
