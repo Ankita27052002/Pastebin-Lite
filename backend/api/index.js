@@ -134,8 +134,6 @@ app.post('/api/pastes', async (req, res) => {
       return res.status(500).json({ error: 'Unable to determine base URL' });
     }
     
-    console.log(`📍 Constructed base URL: ${baseUrl} (from ${req.headers.origin ? 'origin' : req.headers.referer ? 'referer' : req.headers.host ? 'host' : 'env'})`);
-    
     const url = `${baseUrl}/p/${id}`;
 
     return res.status(201).json({ id, url });

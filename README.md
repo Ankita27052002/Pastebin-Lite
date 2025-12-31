@@ -212,21 +212,75 @@ This allows automated tests to verify expiry logic without waiting for real time
 
 ## 🚢 Deployment
 
-### Deploy to Vercel
+### Deploy to Vercel (Recommended)
 
-1. Push your code to GitHub
+#### Prerequisites
+- Upstash Redis account with database created
+- GitHub account
+- Vercel account
 
-2. Visit [vercel.com](https://vercel.com) and import your repository
+#### Step-by-Step Deployment
 
-3. Configure environment variables in Vercel dashboard:
-   - `UPSTASH_REDIS_REST_URL`
-   - `UPSTASH_REDIS_REST_TOKEN`
-   - `BASE_URL` (your Vercel deployment URL)
-   - `TEST_MODE` (optional, for automated tests)
+**1. Prepare Your Repository**
 
-4. Deploy!
+Ensure all changes are committed and pushed to GitHub:
+```bash
+git add .
+git commit -m "Prepare for production deployment"
+git push origin master
+```
 
-The `vercel.json` configuration file is already set up to handle routing for both the API endpoints and the frontend.
+**2. Import to Vercel**
+
+- Visit [vercel.com](https://vercel.com) and sign in with GitHub
+- Click "New Project"
+- Import your `Pastebin-Lite` repository
+- Vercel will auto-detect the configuration from `vercel.json`
+
+**3. Configure Environment Variables**
+
+In the Vercel project settings, add these environment variables:
+
+| Variable | Value | Required |
+|----------|-------|----------|
+| `UPSTASH_REDIS_REST_URL` | Your Upstash Redis REST URL | ✅ Yes |
+| `UPSTASH_REDIS_REST_TOKEN` | Your Upstash Redis REST Token | ✅ Yes |
+| `BASE_URL` | Leave empty (auto-detected) | ❌ No |
+| `TEST_MODE` | `1` (only if running automated tests) | ❌ No |
+
+**Important Notes:**
+- Do NOT set `BASE_URL` - the app will auto-detect it from request headers
+- Get your Upstash credentials from the [Upstash Console](https://console.upstash.com)
+- `TEST_MODE` should only be `1` for test environments
+
+**4. Deploy**
+
+Click "Deploy" and wait for the build to complete. Your app will be live at:
+```
+https://your-project-name.vercel.app
+```
+
+**5. Verify Deployment**
+
+Test these endpoints:
+- Health check: `https://your-app.vercel.app/api/healthz`
+- Create a paste via UI: `https://your-app.vercel.app`
+- Test API directly with curl/Postman
+
+#### Deployment Notes
+
+- The `vercel.json` configuration handles routing for API and frontend
+- Frontend is built as a static site and served from `/`
+- Backend API runs as serverless functions
+- Redis connection is automatically established via environment variables
+- Logs are available in Vercel dashboard under "Logs" tab
+
+### Alternative Deployment Options
+
+This app can be deployed to any platform supporting Node.js, but requires:
+- Persistent Redis instance (Upstash, Redis Cloud, etc.)
+- Ability to run Node.js Express backend
+- Static file hosting for React frontend
 
 ## 📝 Important Design Decisions
 
